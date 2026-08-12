@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block title %}Login{% endblock %}
+{% block guest_content %}
+<div class="login-page">
+    <div class="login-card">
+        <div class="text-center mb-4">
+            <img src="{{ url_for('static', filename=logo_path) }}" style="height:70px; border-radius:12px;">
+            <h4 class="mt-2 mb-0 fw-bold">{{ school_name }}</h4>
+            <small>Result Management System</small>
+        </div>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <form method="POST">
+            <div class="mb-3">
+                <label class="form-label">Username</label>
+                <input type="text" class="form-control" name="username" required autofocus placeholder="Enter your username">
+            </div>
+            <div class="mb-2">
+                <label class="form-label">Password</label>
+                <input type="password" class="form-control" name="password" required placeholder="Enter your password">
+            </div>
+            <div class="text-end mb-3">
+                <a href="{{ url_for('forgot_password') }}" style="font-size:.85rem;">Forgot password?</a>
+            </div>
+            <button type="submit" class="btn btn-success w-100 py-2 fw-semibold">
+                <i class="bi bi-box-arrow-in-right me-1"></i>Sign In
+            </button>
+        </form>
+        <p class="text-center login-footnote mt-3 mb-0" style="font-size:.8rem;">
+            &copy; {{ academic_year }} {{ school_name }}
+        </p>
+    </div>
+</div>
+{% endblock %}

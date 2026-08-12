@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block page_title %}Settings{% endblock %}
+{% block content %}
+<div class="card p-4" style="max-width:550px;">
+    <h5 class="mb-3">School Settings</h5>
+    <form method="POST" enctype="multipart/form-data">
+        <div class="mb-3">
+            <label class="form-label">School Name</label>
+            <input type="text" class="form-control" name="school_name" value="{{ current.school_name }}" required>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Academic Year</label>
+            <input type="text" class="form-control" name="academic_year" value="{{ current.academic_year }}" required>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">School Logo</label><br>
+            <img src="{{ url_for('static', filename=current.logo_path) }}" style="height:60px;" class="mb-2"><br>
+            <input type="file" class="form-control" name="logo" accept="image/*">
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Grading System (fixed)</label>
+            <table class="table table-sm">
+                <tr><td><span class="grade-badge grade-A">A</span></td><td>81 - 100</td></tr>
+                <tr><td><span class="grade-badge grade-B">B</span></td><td>61 - 80</td></tr>
+                <tr><td><span class="grade-badge grade-C">C</span></td><td>41 - 60</td></tr>
+                <tr><td><span class="grade-badge grade-D">D</span></td><td>21 - 40</td></tr>
+                <tr><td><span class="grade-badge grade-E">E</span></td><td>0 - 20</td></tr>
+            </table>
+            <small class="text-muted">To change the grading bands, contact your system administrator (config.py).</small>
+        </div>
+        <button class="btn btn-success">Save Settings</button>
+    </form>
+</div>
+{% endblock %}

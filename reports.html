@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block page_title %}Reports{% endblock %}
+{% block content %}
+<h5 class="mb-3">Generate Student Report</h5>
+
+<div class="row g-3">
+    <div class="col-md-7 col-lg-6">
+        <div class="card p-4">
+            <h6><i class="bi bi-person-lines-fill me-1"></i>Student Report</h6>
+            <p class="text-muted small">Official report for a single student, ready to print/give to a parent.</p>
+            <form method="GET" onsubmit="event.preventDefault();
+                const exam = this.exam_id.value; const stu = this.student_id.value;
+                window.location='/reports/student/' + stu + '/' + exam;">
+                <select name="class_id" id="rep_class" class="form-select mb-2" required onchange="loadStudents()">
+                    <option value="">-- Class --</option>
+                    {% for c in classes %}<option value="{{ c.id }}">{{ c.name }}</option>{% endfor %}
+                </select>
+                <select name="student_id" id="rep_student" class="form-select mb-2" required>
+                    <option value="">-- Select Class First --</option>
+                </select>
+                <select name="exam_id" class="form-select mb-3" required>
+                    <option value="">-- Examination --</option>
+                    {% for e in exams %}<option value="{{ e.id }}">{{ e.exam_type }} - {{ e.academic_year }}</option>{% endfor %}
+                </select>
+                <button class="btn btn-success w-100">Generate Student Report</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+async function loadStudents() {
+    const classId = document.getElementById('rep_class').value;
+    const sel = document.getElementById('rep_student');
+    sel.innerHTML = '<option value="">Loading...</option>';
+    if (!classId) { sel.innerHTML = '<option value="">-- Select Class First --</option>'; return; }
+    const res = await fetch('/api/students-by-class/' + classId);
+    const list = await res.json();
+    sel.innerHTML = '<option value="">-- Select Student --</option>';
+    list.forEach(s => {
+        const opt = document.createElement('option');
+        opt.value = s.id;
+        opt.textContent = s.full_name + ' (' + s.reg_no + ')';
+        sel.appendChild(opt);
+    });
+}
+</script>
+{% endblock %}

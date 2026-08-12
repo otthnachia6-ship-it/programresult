@@ -1,0 +1,303 @@
+:root {
+    --brand-navy: #0b1120;
+    --brand-dark: #0f1b3d;
+    --brand: #16224f;
+    --brand-blue: #2563eb;
+    --brand-blue-light: #60a5fa;
+    --accent: #38bdf8;
+}
+
+body {
+    background-color: #f1f4f9;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* ---------- Sidebar ---------- */
+.sidebar {
+    min-height: 100vh;
+    background: linear-gradient(180deg, var(--brand-navy), var(--brand-dark) 55%, var(--brand));
+    color: #fff;
+    box-shadow: 2px 0 12px rgba(0,0,0,.12);
+}
+.sidebar .brand {
+    padding: 1.1rem 1rem;
+    border-bottom: 1px solid rgba(255,255,255,.12);
+}
+.sidebar .brand img { height: 42px; margin-right: .5rem; border-radius: 8px; }
+.sidebar a.nav-link {
+    color: rgba(226,232,255,.8);
+    padding: .55rem 1rem;
+    border-radius: 8px;
+    margin: 2px 8px;
+    font-size: .93rem;
+    transition: background .15s ease;
+}
+.sidebar a.nav-link:hover {
+    background: rgba(96,165,250,.14);
+    color: #fff;
+}
+.sidebar a.nav-link.active {
+    background: linear-gradient(90deg, var(--brand-blue), var(--brand-blue-light));
+    color: #fff;
+    font-weight: 600;
+    box-shadow: 0 2px 8px rgba(37,99,235,.35);
+}
+.sidebar .nav-section {
+    text-transform: uppercase;
+    font-size: .68rem;
+    letter-spacing: .08em;
+    color: rgba(148,163,255,.55);
+    padding: .9rem 1rem .25rem;
+}
+
+.topbar {
+    background: #fff;
+    border-bottom: 1px solid #e5e7eb;
+    padding: .7rem 1.2rem;
+}
+
+.stat-card {
+    border: none;
+    border-radius: 14px;
+    box-shadow: 0 2px 10px rgba(15,23,42,.07);
+}
+.stat-card .stat-value { font-size: 1.9rem; font-weight: 700; color: #0f1b3d; }
+.stat-card .stat-icon {
+    width: 46px; height: 46px; border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.3rem; color: #fff;
+}
+
+.card { border-radius: 12px; border: 1px solid #e7eaf3; }
+.card-header { border-radius: 12px 12px 0 0 !important; }
+.table thead th { background: #f4f6fb; font-size: .8rem; text-transform: uppercase; letter-spacing: .03em; color: #4b5563; }
+
+.btn-success {
+    background-color: var(--brand-blue);
+    border-color: var(--brand-blue);
+}
+.btn-success:hover, .btn-success:focus {
+    background-color: #1d4ed8;
+    border-color: #1d4ed8;
+}
+.btn-outline-success {
+    color: var(--brand-blue);
+    border-color: var(--brand-blue);
+}
+.btn-outline-success:hover {
+    background-color: var(--brand-blue);
+    border-color: var(--brand-blue);
+}
+a { color: var(--brand-blue); }
+
+/* ---------- Grade badges ---------- */
+.grade-badge {
+    display: inline-block;
+    min-width: 34px;
+    padding: .25rem .5rem;
+    border-radius: 6px;
+    font-weight: 700;
+    color: #fff;
+    text-align: center;
+}
+.grade-A { background-color: #16a34a; }
+.grade-B { background-color: #2563eb; }
+.grade-C { background-color: #f59e0b; color: #333; }
+.grade-D { background-color: #f97316; }
+.grade-E { background-color: #dc2626; }
+.grade-\- { background-color: #6c757d; }
+
+.badge-gender-Male { background-color: #2563eb; }
+.badge-gender-Female { background-color: #db2777; }
+.badge-gender-Unknown { background-color: #6c757d; }
+
+.status-badge-draft { background: #6c757d; }
+.status-badge-submitted { background: #f97316; }
+.status-badge-under_review { background: #f97316; }
+.status-badge-approved { background: #16a34a; }
+.status-badge-returned { background: #dc2626; }
+
+/* ---------- Report / print ---------- */
+.report-sheet {
+    background: #fff;
+    padding: 10mm;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    max-width: 210mm;
+    margin: 0 auto;
+}
+.report-sheet .table-responsive { overflow-x: auto; }
+.report-table th, .report-table td { white-space: normal; word-break: break-word; }
+.report-header { text-align: center; border-bottom: 3px solid var(--brand-blue); padding-bottom: 10px; margin-bottom: 20px; }
+.report-header img { height: 70px; }
+.report-header h2 { margin: .3rem 0 0; color: var(--brand-dark); font-weight: 800; letter-spacing: .03em; }
+.report-header p { margin: 0; color: #555; }
+
+.grade-text-A { color: #16a34a; font-weight: 700; }
+.grade-text-B { color: #2563eb; font-weight: 700; }
+.grade-text-C { color: #b45309; font-weight: 700; }
+.grade-text-D { color: #ea580c; font-weight: 700; }
+.grade-text-E { color: #dc2626; font-weight: 700; }
+.grade-text-\- { color: #6c757d; font-weight: 700; }
+
+/* ---------------------------------------------------------------------
+   Official letterhead-style report card (matches the school's requested
+   layout: logo + centered title + academic-year badge + info panel,
+   navy header table, and a signed/stamped footer).
+--------------------------------------------------------------------- */
+:root {
+    --report-navy: #1b2a4e;
+}
+.kps-sheet {
+    background: #fff;
+    border: 1.5px solid var(--report-navy);
+    border-radius: 6px;
+    padding: 8mm 9mm;
+    max-width: 210mm;
+    margin: 0 auto;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    color: #1a1a1a;
+}
+.kps-header-top {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+}
+.kps-header-top .logo-col img { width: 72px; height: 72px; border-radius: 50%; object-fit: cover; }
+.kps-header-top .center-col { flex: 1; text-align: center; padding-top: 4px; }
+.kps-header-top .center-col h1 {
+    font-size: 1.45rem; font-weight: 800; color: var(--report-navy);
+    margin: 0; letter-spacing: .01em; line-height: 1.15;
+}
+.kps-header-top .center-col .subtitle {
+    font-size: 1.05rem; font-weight: 700; color: var(--report-navy);
+    margin: 4px 0 10px;
+}
+.kps-header-top .center-col .academic-badge {
+    display: inline-block; background: var(--report-navy); color: #fff;
+    padding: 5px 16px; border-radius: 5px; font-weight: 700;
+    font-size: .8rem; letter-spacing: .03em;
+}
+
+.kps-info-wrap {
+    display: flex;
+    justify-content: flex-end;
+    border-bottom: 2px solid var(--report-navy);
+    padding-bottom: 12px;
+    margin: 10px 0 16px;
+}
+.kps-info-box { min-width: 230px; font-size: .82rem; }
+.kps-info-box .kps-info-row { display: flex; flex-wrap: nowrap; align-items: baseline; margin-bottom: 5px; }
+.kps-info-box .kps-info-row .k { font-weight: 700; color: #333; }
+.kps-info-box .kps-info-row .sep { margin: 0 5px; }
+.kps-info-box .kps-info-row .v { font-weight: 600; color: #111; }
+
+.kps-table { width: 100%; border-collapse: collapse; margin-bottom: 18px; }
+.kps-table th {
+    background: var(--report-navy); color: #fff;
+    padding: 9px 8px; font-size: .78rem; text-transform: uppercase;
+    letter-spacing: .02em; text-align: left;
+}
+.kps-table td { padding: 8px; border: 1px solid #ccc; font-size: .88rem; }
+.kps-table th.center, .kps-table td.center { text-align: center; }
+.kps-table tbody tr:nth-child(even) { background: #f7f8fb; }
+
+.kps-remarks { font-size: .85rem; margin-bottom: 14px; }
+.kps-remarks .k { font-weight: 700; color: var(--report-navy); }
+.kps-remarks .box { border: 1px solid #ccc; border-radius: 4px; padding: 8px 10px; margin-top: 4px; min-height: 55px; }
+
+.kps-footer {
+    display: flex; justify-content: space-between; align-items: flex-start;
+    margin-top: 26px; border-top: 1px solid #ddd; padding-top: 18px;
+}
+.kps-footer .sign-col { width: 30%; text-align: center; }
+.kps-footer .sign-line { border-top: 1px dotted #333; margin-top: 46px; padding-top: 5px; font-weight: 700; font-size: .82rem; color: var(--report-navy); }
+.kps-footer .sign-date { font-size: .74rem; color: #666; margin-top: 3px; }
+.kps-footer .stamp-col { width: 30%; text-align: center; }
+.kps-footer .stamp-circle {
+    width: 100px; height: 100px; border: 2px dashed #99a;
+    border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 6px; color: #8891a8; font-size: .68rem; text-align: center; padding: 6px;
+}
+
+    margin-top: 50px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+.report-footer .sign-box { width: 30%; text-align: center; }
+.report-footer .sign-line { border-top: 1px solid #333; margin-top: 45px; padding-top: 4px; font-size: .85rem; }
+.report-footer .stamp-box {
+    width: 30%;
+    text-align: center;
+    border: 2px dashed #999;
+    border-radius: 50%;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #999;
+    font-size: .8rem;
+    margin: 0 auto;
+}
+
+@media print {
+    @page { size: A4 portrait; margin: 10mm; }
+    @page landscapeReport { size: A4 landscape; margin: 10mm; }
+    .no-print { display: none !important; }
+    .sidebar, .topbar { display: none !important; }
+    .report-sheet, .kps-sheet { border: none; box-shadow: none; padding: 0; max-width: 100%; }
+    .report-sheet .table-responsive { overflow: visible; }
+    .class-report-wrap { page: landscapeReport; }
+    .report-table { font-size: .78rem; }
+    .report-table th, .report-table td { padding: .3rem; }
+    body { background: #fff; }
+    main { margin: 0 !important; width: 100% !important; }
+}
+
+/* ---------- Login ---------- */
+.login-page {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background:
+        radial-gradient(circle at 15% 20%, rgba(56,189,248,.18), transparent 45%),
+        radial-gradient(circle at 85% 80%, rgba(37,99,235,.25), transparent 50%),
+        linear-gradient(135deg, var(--brand-navy), var(--brand-dark) 55%, var(--brand));
+    position: relative;
+    overflow: hidden;
+}
+.login-card {
+    background: rgba(255,255,255,.06);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid rgba(255,255,255,.15);
+    border-radius: 18px;
+    padding: 2.5rem;
+    width: 100%;
+    max-width: 420px;
+    box-shadow: 0 20px 60px rgba(0,0,0,.45);
+    color: #eef2ff;
+}
+.login-card h4 { color: #fff; }
+.login-card small { color: rgba(226,232,255,.65); }
+.login-card .form-label { color: rgba(226,232,255,.85); font-size: .88rem; }
+.login-card .form-control {
+    background: rgba(255,255,255,.08);
+    border: 1px solid rgba(255,255,255,.2);
+    color: #fff;
+}
+.login-card .form-control::placeholder { color: rgba(226,232,255,.45); }
+.login-card .form-control:focus {
+    background: rgba(255,255,255,.12);
+    border-color: var(--accent);
+    box-shadow: 0 0 0 .2rem rgba(56,189,248,.25);
+    color: #fff;
+}
+.login-card .btn-success {
+    background: linear-gradient(90deg, var(--brand-blue), var(--accent));
+    border: none;
+}
+.login-card a { color: var(--accent); }
+.login-footnote { color: rgba(226,232,255,.5); }

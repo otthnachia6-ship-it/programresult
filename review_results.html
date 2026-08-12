@@ -1,0 +1,104 @@
+{% extends "base.html" %}
+{% block page_title %}Review Results{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <div>
+        <h5 class="mb-0">{{ cls.name }} — {{ exam.exam_type }} ({{ exam.academic_year }})</h5>
+        <span class="badge status-badge-{{ status_row.status if status_row else 'draft' }} mt-1">
+            {{ STATUS_LABELS.get(status_row.status if status_row else 'draft', 'Draft')|upper }}
+        </span>
+    </div>
+    <div class="d-flex gap-2">
+        <a href="{{ url_for('results') }}" class="btn btn-sm btn-outline-secondary no-print">&larr; Back</a>
+    </div>
+</div>
+
+{% if status_row and status_row.remarks and status_row.status == 'returned' %}
+<div class="alert alert-secondary"><strong>Previous Remarks:</strong> {{ status_row.remarks }}</div>
+{% endif %}
+
+<div class="card mb-3">
+    <div class="table-responsive">
+        <table class="table table-bordered table-sm align-middle mb-0">
+            <thead>
+            <tr>
+                <th>Name</th>
+                {% for sub in subjects %}<th class="text-center">{{ sub.name }}</th>{% endfor %}
+                <th class="text-center">Total</th>
+                <th class="text-center">Average</th>
+                <th class="text-center">Grade</th>
+                <th class="text-center">Position</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for r in results %}
+            <tr>
+                <td>{{ r.student.full_name }}</td>
+                {% for sub in subjects %}
+                <td class="text-center">{{ r.scores.get(sub.id, '-') }}</td>
+                {% endfor %}
+                <td class="text-center fw-semibold">{{ r.total if r.subjects_entered else '-' }}</td>
+                <td class="text-center fw-semibold">{{ r.average if r.average is not none else '-' }}</td>
+                <td class="text-center"><span class="grade-badge grade-{{ r.grade }}">{{ r.grade }}</span></td>
+                <td class="text-center">{{ r.position }}</td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% if status_row and status_row.status in ['submitted', 'under_review'] %}
+<div class="card p-3 no-print mb-3">
+    <div class="d-flex gap-2 flex-wrap">
+        <form method="POST" onsubmit="return confirm('Are you sure you want to approve these results? Once approved, they will be locked.');">
+            <input type="hidden" name="action" value="approve">
+            <button type="submit" class="btn btn-success">
+                <i class="bi bi-check2-circle me-1"></i>Approve Results
+            </button>
+        </form>
+        <button type="button" class="btn btn-outline-danger" onclick="document.getElementById('returnPanel').classList.toggle('d-none')">
+            <i class="bi bi-arrow-return-left me-1"></i>Return for Correction
+        </button>
+    </div>
+
+    <div id="returnPanel" class="d-none mt-3 border-top pt-3">
+        <form method="POST">
+            <input type="hidden" name="action" value="return">
+            <label class="form-label fw-semibold">Reason / Feedback</label>
+            <textarea name="remarks" class="form-control mb-2" rows="3" required
+                      placeholder="e.g. Please check the Mathematics marks for Asha, they look incorrect before resubmission."></textarea>
+            <div class="d-flex gap-2">
+                <button type="submit" class="btn btn-danger"><i class="bi bi-send me-1"></i>Send Feedback</button>
+                <button type="button" class="btn btn-outline-secondary" onclick="document.getElementById('returnPanel').classList.add('d-none')">Cancel</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endif %}
+
+{% if history %}
+<div class="card p-3 no-print">
+    <h6 class="mb-3"><i class="bi bi-clock-history me-1"></i>Submission &amp; Feedback History</h6>
+    <ul class="list-unstyled mb-0">
+        {% for h in history %}
+        <li class="mb-2 pb-2 border-bottom">
+            <div class="d-flex justify-content-between">
+                <span class="fw-semibold">
+                    {% if h.action == 'SUBMIT_RESULTS' %}<i class="bi bi-send text-primary me-1"></i>Submitted by {{ h.username }}
+                    {% elif h.action == 'START_REVIEW' %}<i class="bi bi-eye text-info me-1"></i>Review started by {{ h.username }}
+                    {% elif h.action == 'APPROVE_RESULTS' %}<i class="bi bi-check2-circle text-success me-1"></i>Approved by {{ h.username }}
+                    {% elif h.action == 'RETURN_RESULTS' %}<i class="bi bi-arrow-return-left text-danger me-1"></i>Returned by {{ h.username }}
+                    {% endif %}
+                </span>
+                <span class="text-muted small">{{ h.created_at }}</span>
+            </div>
+            {% if h.action == 'RETURN_RESULTS' and ':' in h.details %}
+            <div class="text-muted small mt-1">Feedback: "{{ h.details.split(': ', 1)[1] }}"</div>
+            {% endif %}
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+{% endif %}
+{% endblock %}

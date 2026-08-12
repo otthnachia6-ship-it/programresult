@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block page_title %}Marks Entry{% endblock %}
+{% block content %}
+<h5 class="mb-3">Select Examination and Class for Marks Entry</h5>
+<div class="card p-4" style="max-width:550px;">
+    <form method="GET" action="" onsubmit="event.preventDefault(); window.location = '/marks/' + document.getElementById('exam_id').value + '/' + document.getElementById('class_id').value;">
+        <div class="mb-3">
+            <label class="form-label">Examination</label>
+            <select id="exam_id" class="form-select" required>
+                <option value="">-- Select Examination --</option>
+                {% for e in exams %}
+                <option value="{{ e.id }}">{{ e.exam_type }} - {{ e.academic_year }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Class</label>
+            <select id="class_id" class="form-select" required>
+                <option value="">-- Select Class --</option>
+                {% for c in classes %}
+                <option value="{{ c.id }}">{{ c.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <button class="btn btn-success"><i class="bi bi-arrow-right-circle me-1"></i>Continue</button>
+    </form>
+</div>
+{% endblock %}

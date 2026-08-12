@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% block page_title %}Students{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h5 class="mb-0">Student List</h5>
+    <a href="{{ url_for('add_student') }}" class="btn btn-success"><i class="bi bi-person-plus me-1"></i>Register Student</a>
+</div>
+
+<form method="GET" class="row g-2 mb-3">
+    {% if session_user.role == ROLE_HEADMASTER %}
+    <div class="col-auto">
+        <select name="class_id" class="form-select form-select-sm" onchange="this.form.submit()">
+            <option value="">All Classes</option>
+            {% for c in classes %}
+            <option value="{{ c.id }}" {% if class_filter|string == c.id|string %}selected{% endif %}>{{ c.name }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    {% endif %}
+    <div class="col-auto">
+        <input type="text" name="q" class="form-control form-control-sm" placeholder="Search by name or Reg No..." value="{{ search }}">
+    </div>
+    <div class="col-auto">
+        <button class="btn btn-sm btn-outline-secondary">Search</button>
+    </div>
+</form>
+
+{% if not grouped %}
+<div class="alert alert-info">No students found.</div>
+{% endif %}
+
+{% for class_name, list in grouped.items() %}
+<div class="card mb-3">
+    <div class="card-header bg-white fw-semibold d-flex justify-content-between">
+        <span><i class="bi bi-door-open me-1"></i>{{ class_name }}</span>
+        <span class="badge bg-secondary">{{ list|length }} students</span>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-sm mb-0 align-middle">
+            <thead><tr><th>#</th><th>Reg No</th><th>Full Name</th><th>Gender</th><th class="text-end no-print">Actions</th></tr></thead>
+            <tbody>
+            {% for s in list %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td>{{ s.reg_no }}</td>
+                <td>{{ s.full_name }}</td>
+                <td>
+                    <span class="badge badge-gender-{{ s.gender }}">{{ s.gender }}</span>
+                    {% if not s.gender_confirmed %}<i class="bi bi-exclamation-triangle text-warning ms-1" title="Not confirmed"></i>{% endif %}
+                </td>
+                <td class="text-end no-print">
+                    <a href="{{ url_for('edit_student', student_id=s.id) }}" class="btn btn-sm btn-outline-primary"><i class="bi bi-pencil"></i></a>
+                    <form method="POST" action="{{ url_for('delete_student', student_id=s.id) }}" class="d-inline"
+                          onsubmit="return confirm('Are you sure you want to remove {{ s.full_name }}?');">
+                        <button class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endfor %}
+{% endblock %}
